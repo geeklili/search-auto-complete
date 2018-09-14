@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>成语预测模型</title>
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/js/jquery.animate-colors-min.js"></script>
+    <script>
+        $(function () {
+
+            $(".inner").bind("input", function () {
+                // console.log($(this).val());
+                $(".show").find("div").remove();
+                latestWord = $(this).val();
+                $.ajax({
+                    url: "http://192.168.1.8:8080/data",
+                    type: "GET",
+                    dataType: "jsonp",
+                    jsonpCallback: "dothis",
+                    data: {'word': latestWord},
+                    async: "true",
+                    success: function () {
+                        console.log("成功获取数据");
+                    },
+                    error: function () {
+                        console.log("获取数据失败");
+                    }
+                });
+
+                dothis = function (data) {
+                    var listShow = data["s"];
+                    // var listShow = ['a','b','c']
+                    console.log(listShow);
+                    for (var index = 0; index < listShow.length; index++) {
+                        var backword = listShow[index];
+                        $everyLine = '<div class="line">' + backword + '</div>';
+                        $(".show").append($everyLine);
+
+                    }
+                }
+            })
+
+        })
+    </script>
+</head>
+<style>
+    .outLine {
+        width: 802px;
+        /*border: 1px solid black;*/
+        margin: 0 auto;
+    }
+
+    .box {
+        height: 45px;
+        width: 800px;
+        /*background-color: cyan;*/
+        margin: 50px auto;
+        font-size: 0;
+        border: 1px solid red;
+        margin-bottom: 0;
+    }
+
+    .inner {
+        width: 710px;
+        height: 45px;
+        outline: none;
+        text-indent: 20px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        line-height: 40px;
+        font-size: 20px;
+        float: left;
+    }
+
+    .search {
+        height: 45px;
+        width: 90px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: red;
+        color: #fff;
+        font-size: 18px;
+        outline: none;
+    }
+
+    .show {
+        width: 712px;
+        /*background-color: gold;*/
+        /*margin-left: 350px;*/
+        margin-top: 0;
+        overflow: hidden;
+        border-right: 1px solid red;
+        border-left: 1px solid red;
+    }
+
+    .line {
+        height: 30px;
+        /*background-color: cyan;*/
+        line-height: 30px;
+        text-indent: 20px;
+        font-size: 16px;
+        border-bottom: 1px solid gray;
+    }
+</style>
+
+<body>
+<div class="outLine">
+    <div class="box">
+        <input class="inner" type="text">
+        <input class="search" type="button" value="成语一下">
+    </div>
+
+    <div class="show">
+        <!--<div class="line">nihao</div>
+        <div class="line">nihao</div>-->
+    </div>
+
+</div>
+
+</body>
+
+</html>
