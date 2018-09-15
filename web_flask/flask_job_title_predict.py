@@ -33,4 +33,4 @@ def get_data():
 if __name__ == '__main__':
     with open('../data_out/predict.data', 'r', encoding='utf-8') as f3:
         di_pro = eval(f3.read())
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
